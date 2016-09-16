@@ -1,0 +1,2 @@
+class VoiceId
+end

@@ -1,4 +1,4 @@
 source "https://rubygems.org"
 
-gem "rest-client"
+gem "rest-client", "~> 2.0.0"
 

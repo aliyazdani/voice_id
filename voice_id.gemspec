@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'Voice ID'
+  s.name        = 'voice_id'
   s.version     = '0.1.0'
   s.date        = '2016-09-16'
   s.summary     = "Ruby Wrapper for Microsoft Cognitive Services Speaker Recognition API"

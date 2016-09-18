@@ -1,4 +1,6 @@
 source "https://rubygems.org"
 
-gem "rest-client", "~> 2.0.0"
-
+# provides a way to send 'multipart/form-data'
+gem "multipart-post", "~> 2.0.0"
+# testing
+gem "rspec", "~> 3.4.0"

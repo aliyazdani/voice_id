@@ -262,7 +262,8 @@ class VoiceId
 
 end
 
-v = VoiceId.new("cf0f820a992f4b0fa4ec9c1c48b37151")
+api_key = ENV['ms_api_key']
+v = VoiceId.new(ms_api_key)
 # p v.create_profile
 # p v.delete_profile("6c7c204e-15fd-487b-829a-3a48edf7105a")
 # p v.get_all_profiles

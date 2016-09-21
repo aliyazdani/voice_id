@@ -16,9 +16,9 @@ module VoiceId
     # }
     #
     # returns
-    #   200 - success
+    #   success
     #     new profileId { Hash }
-    #   500 - error
+    #   fail
     #     false (indicating new profile was not created)
     def create_profile
       super("/verificationProfiles")
@@ -41,9 +41,9 @@ module VoiceId
     #   }
     #
     # returns
-    #   200 - success
+    #   success
     #     profile id that was deleted { String }
-    #   500 - error
+    #   fail
     #     false (indicating delete of id failed)
     def delete_profile(profileId)
       super("/verificationProfiles/#{profileId}")
@@ -70,9 +70,9 @@ module VoiceId
     #   }
     #
     # returns
-    #   200 - success
+    #   success
     #     A list of all the profiles { Array }
-    #   500 - error
+    #   fail
     #     false (indicating delete of id failed)
     def get_all_profiles
       super('/verificationProfiles')
@@ -103,9 +103,9 @@ module VoiceId
     #   }
     #
     # returns
-    #   200 - success
+    #   success
     #     a profile { Hash }
-    #   500 - error
+    #   fail
     #     false (indicating delete of id failed)
     def get_profile(profileId)
       super("/verificationProfiles/#{profileId}")
@@ -139,23 +139,16 @@ module VoiceId
     # returns
     #   success
     #     enrollment details { Hash }
-    #   error
+    #   fail
     #     false
     def create_enrollment(profileId, audio_file_path)
-      path          = "/verificationProfiles/#{profileId}/enroll"
-      method        = :Post
-      headers       = { "Content-Type" => "multipart/form-data" }
-      uri           = generate_uri(path)
-      multipart     = true
+      _method  = :Post
+      _path    = "/verificationProfiles/#{profileId}/enroll"
+      _headers = { } 
+      _body    = { :form => { :file   => HTTP::FormData::File.new(audio_file_path) } }
+      response = send_request(_path, _method, _headers, _body)
 
-      generate_request(method, uri, headers, multipart, audio_file_path) do |request|
-        response = send_request(uri, request)
-        puts response.body
-        # api returns url of enrollment status in response headers
-        response.code == '200' ? JSON.parse(response.body) : false
-      end
-
-
+      response.code == 200 ? response.headers["Operation-Location"] : false
     end
 
     # params
@@ -175,9 +168,9 @@ module VoiceId
     #   }
     #
     # returns
-    #   200 - success
+    #   success
     #     profile id that was deleted { String }
-    #   500 - error
+    #   fail
     #     false (indicating delete of enrollments failed)
     def reset_all_enrollments_for_profile(profileId)
       super("/verificationProfiles/#{profileId}/reset")
@@ -213,16 +206,16 @@ module VoiceId
     # returns
     #   success
     #     list of acceptable phrases { Array }
-    #   error
+    #   fail
     #     false
     def list_all_verification_phrases
-      _method  = :Get
-      _locale  = "en-us"
-      _path    = "/verificationPhrases?locale=#{_locale}"
-      _headers = { "Content-Type" => "application/json" }
-      response = send_request(_path, _method, _headers, nil)
+      _method   = :Get
+      _locale   = "en-us"
+      _path     = "/verificationPhrases?locale=#{_locale}"
+      _headers  = { "Content-Type" => "application/json" }
+      _response = send_request(_path, _method, _headers, nil)
 
-      response.code == 200 ? response.parse : false
+      _response.code == 200 ? _response.parse : false
     end
   end
 end

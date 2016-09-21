@@ -14,4 +14,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'http', '~>2.0.3'
   s.add_development_dependency 'rspec', '~> 3.4.0'
   s.add_development_dependency "mimic"
+  s.add_development_dependency "fakefs", "~> 0.9.1"
 end

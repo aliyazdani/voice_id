@@ -25,3 +25,8 @@ require_relative 'voice_id/request_helpers'
 require_relative 'voice_id/base'
 require_relative 'voice_id/identification'
 require_relative 'voice_id/verification'
+
+
+# v = VoiceId::Identification.new("cf0f820a992f4b0fa4ec9c1c48b37151")
+# p v.create_profile
+# p v.delete_profile("e72655bb-3a53-4e89-bbfc-5059997f7e09")

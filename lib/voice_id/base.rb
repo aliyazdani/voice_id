@@ -1,8 +1,10 @@
+require 'pry'
+
 module VoiceId
   class Base
     include RequestHelpers
 
-    attr_reader :api_base_url, :api_key, :api_version, :headers, :use_ssl
+    attr_accessor :api_base_url, :api_key, :api_version, :headers, :use_ssl
     def initialize(api_key)
       @api_version  = "v1.0"
       @api_key      = api_key

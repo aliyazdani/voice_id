@@ -18,7 +18,7 @@ module VoiceId
       when :Get
         _req.get(_path)
       when :Delete
-        _req.delete(_path)
+        r = _req.delete(_path)
       end
     end
 

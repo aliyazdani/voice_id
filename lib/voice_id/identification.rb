@@ -35,11 +35,10 @@ module VoiceId
       end
 
       _identificationProfileIds = profileIds.join(",")
-      _method = :Post
-      _path      = "/identify?identificationProfileIds=#{_identificationProfileIds}&shortAudio=#{shortAudio}"
+      _method  = :Post
+      _path    = "/identify?identificationProfileIds=#{_identificationProfileIds}&shortAudio=#{shortAudio}"
       _headers = { } 
-      _body = { :form => { :file   => HTTP::FormData::File.new(audio_file_path) } }
-
+      _body    = { :form => { :file   => HTTP::FormData::File.new(audio_file_path) } }
       response = send_request(_path, _method, _headers, _body)
 
       response.code == 202 ? response.headers["Operation-Location"] : false
@@ -60,9 +59,9 @@ module VoiceId
     # }
     #
     # returns
-    #   200 - success
+    #   success
     #     new profileId { Hash }
-    #   500 - error
+    #   fail
     #     false (indicating new profile was not created)
     def create_profile
       super("/identificationProfiles")
@@ -85,9 +84,9 @@ module VoiceId
     #   }
     #
     # returns
-    #   200 - success
-    #     profile id that was deleted { String }
-    #   500 - error
+    #   success
+    #     true
+    #   fail
     #     false (indicating delete of id failed)
     def delete_profile(profileId)
       super("/identificationProfiles/#{profileId}")
@@ -116,9 +115,9 @@ module VoiceId
     #   }
     #
     # returns
-    #   200 - success
+    #   success
     #     A list of all the profiles { Array }
-    #   500 - error
+    #   fail
     #     false (indicating delete of id failed)
     def get_all_profiles
       super('/identificationProfiles')
@@ -149,9 +148,9 @@ module VoiceId
     #   }
     #
     # returns
-    #   200 - success
+    #   success
     #     a profile { Hash }
-    #   500 - error
+    #   fail
     #     false (indicating delete of id failed)
     def get_profile(profileId)
       super("/identificationProfiles/#{profileId}")
@@ -179,18 +178,17 @@ module VoiceId
     #   }
     #
     # returns
-    #   202 - success
+    #   success
     #     a url { String }
-    #   500 - error
+    #   fail
     #     false
     def create_enrollment(profileId, shortAudio, audio_file_path)
-      _method = :Post
-      _path          = "/identificationProfiles/#{profileId}/enroll"
+      _method  = :Post
+      _path    = "/identificationProfiles/#{profileId}/enroll"
       _headers = { } 
-      _body = { :form => { :file   => HTTP::FormData::File.new(audio_file_path) } }
+      _body    = { :form => { :file   => HTTP::FormData::File.new(audio_file_path) } }
 
       response = send_request(_path, _method, _headers, _body)
-
       response.code == 202 ? response.headers["Operation-Location"] : false
     end
 
@@ -211,9 +209,9 @@ module VoiceId
     #   }
     #
     # returns
-    #   200 - success
-    #     profile id that was deleted { String }
-    #   500 - error
+    #   success
+    #     true
+    #   fail
     #     false (indicating delete of enrollments failed)
     def reset_all_enrollments_for_profile(profileId)
       super("/identificationProfiles/#{profileId}/reset")

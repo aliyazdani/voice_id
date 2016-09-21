@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
     'http://rubygems.org/gems/voice_id'
   s.license       = 'MIT'
 
-  s.add_runtime_dependency 'multipart-post', '~>2.0.0'
   s.add_runtime_dependency 'http', '~>2.0.3'
   s.add_development_dependency 'rspec', '~> 3.4.0'
+  s.add_development_dependency "mimic"
 end

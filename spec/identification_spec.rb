@@ -37,7 +37,7 @@ describe VoiceId::Identification do
     get("/identificationProfiles/:profileId").returning(@profile.to_json, 200, json_type)
     post("/identificationProfiles").returning(@identification_profile.to_json, 200, json_type)
     post("/identificationProfiles/:profileId/reset").returning("".to_json, 200, json_type)
-    post("/identificationProfiles/:profileId/enroll").returning(@enrollment_operation_url, 202, json_type.merge(enrollment_operation))
+    post("/identificationProfiles/:profileId/enroll").returning("".to_json, 202, json_type.merge(enrollment_operation))
     delete("/identificationProfiles/:profileId").returning("".to_json, 200, json_type)
   end
 
@@ -73,15 +73,13 @@ describe VoiceId::Identification do
     end
   end
 
-  describe "#create_enrollment", fakefs: true do
+  describe "#create_enrollment" do
     it "should create a new enrollment for a profile and return an operation url" do
-      FileUtils.touch("cool.wav")
-
-      profileId       = "3442122189"
-      shortAudio      = true
-      audio_file_path = "cool.wav"
-
-      expect(@identification.create_enrollment(profileId, shortAudio, audio_file_path)).to eql("https://www.coolsite/operations/123456789")
+      data       = { :form => { :file   => "cool.wav" } }
+      profileId  = "0991883883"
+      shortAudio = true
+      allow(VoiceId::Identification).to receive(:create_body_for_enrollment).and_return(data)
+      expect(@identification.create_enrollment(profileId , shortAudio, '/path/to/some/audio_file.wav')).to eql("https://www.coolsite/operations/123456789")
     end
   end
 
@@ -91,5 +89,4 @@ describe VoiceId::Identification do
       expect(@identification.reset_all_enrollments_for_profile(profileId)).to eql(true)
     end
   end
-
 end

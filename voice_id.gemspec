@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'voice_id'
-  s.version     = '0.1.0'
+  s.version     = '0.1.0.pre'
   s.date        = '2016-09-16'
   s.summary     = "Ruby Wrapper for Microsoft Cognitive Services Speaker Recognition API"
   s.description = "Exposes easy-to-use methods to work with Microsoft's Speach Recognition API and identify people by their voice.  Useful for identifying your users by speech."
@@ -10,4 +10,8 @@ Gem::Specification.new do |s|
   s.homepage    =
     'http://rubygems.org/gems/voice_id'
   s.license       = 'MIT'
+
+  s.add_runtime_dependency 'multipart-post', '~>2.0.0'
+  s.add_runtime_dependency 'http', '~>2.0.3'
+  s.add_development_dependency 'rspec', '~> 3.4.0'
 end

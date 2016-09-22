@@ -41,17 +41,17 @@ module VoiceId
     #   }
     #
     # returns
-    #   200 - success
+    #   success
     #     operation status { Hash }
-    #   404 - error
+    #   error
     #     false
     def get_operation_status(operationId)
       _method = :Get
       _path = "/operations/#{operationId}"
       _headers = { "Content-Type" => "application/json" }
-      response = send_request(_path, _method, _headers, nil)
+      _response = send_request(_path, _method, _headers, nil)
 
-      response.code == 200 ? response.parse : false
+      _response.code == 200 ? _response.parse : false
     end
 
     def create_profile(path)
@@ -59,45 +59,45 @@ module VoiceId
       _path    = path
       _headers = { "Content-Type" => "application/json" }
       _body    = { :json => { :locale   => "en-us" } }
-      response = send_request(_path, _method, _headers, _body)
+      _response = send_request(_path, _method, _headers, _body)
 
-      response.code == 200 ? response.parse : false
+      _response.code == 200 ? _response.parse : false
     end
 
     def delete_profile(path)
       _method  = :Delete
       _path    = path
       _headers = { "Content-Type" => "application/json" }
-      response = send_request(_path, _method, _headers, nil)
+      _response = send_request(_path, _method, _headers, nil)
 
-      response.code == 200
+      _response.code == 200
     end
 
     def get_all_profiles(path)
       _method  = :Get
       _path    = path
       _headers = { "Content-Type" => "application/json" }
-      response = send_request(_path, _method, _headers, nil)
+      _response = send_request(_path, _method, _headers, nil)
 
-      response.code == 200 ? response.parse : false
+      _response.code == 200 ? _response.parse : false
     end
 
     def get_profile(path)
       _method  = :Get
       _path    = path
       _headers = { "Content-Type" => "application/json" }
-      response = send_request(_path, _method, _headers, nil)
+      _response = send_request(_path, _method, _headers, nil)
 
-      response.code == 200 ? response.parse : false
+      _response.code == 200 ? _response.parse : false
     end
 
     def reset_all_enrollments_for_profile(path)
       _method  = :Post
       _path    = path
       _headers = { "Content-Type" => "application/json" }
-      response = send_request(_path, _method, _headers, nil)
+      _response = send_request(_path, _method, _headers, nil)
 
-      response.code == 200
+      _response.code == 200
     end
   end
 end

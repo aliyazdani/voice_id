@@ -2,11 +2,6 @@ module VoiceId
   class Identification < VoiceId::Base
     class ProfileIdsMissingError < StandardError; end
 
-    # generate body for content-type "multipart/form-data"
-    def self.create_body_for_enrollment(audio_file_path)
-      { :form => { :file   => HTTP::FormData::File.new(audio_file_path) } }
-    end
-
     # params
     #   profileIds - required
     #     a valid list of comma-separated values
@@ -43,10 +38,10 @@ module VoiceId
       _method  = :Post
       _path    = "/identify?identificationProfileIds=#{_identificationProfileIds}&shortAudio=#{shortAudio}"
       _headers = { } 
-      _body    = VoiceId::Identification.create_body_for_enrollment(audio_file_path)
-      response = send_request(_path, _method, _headers, _body)
+      _body    = VoiceId::RequestHelpers.create_body_for_enrollment(audio_file_path)
+      _response = send_request(_path, _method, _headers, _body)
 
-      response.code == 202 ? response.headers["Operation-Location"] : false
+      _response.code == 202 ? _response.headers["Operation-Location"] : false
     end
 
     # Microsoft API response
@@ -191,10 +186,10 @@ module VoiceId
       _method  = :Post
       _path    = "/identificationProfiles/#{profileId}/enroll"
       _headers = { } 
-      _body    = VoiceId::Identification.create_body_for_enrollment(audio_file_path)
+      _body    = VoiceId::RequestHelpers.create_body_for_enrollment(audio_file_path)
 
-      response = send_request(_path, _method, _headers, _body)
-      response.code == 202 ? response.headers["Operation-Location"] : false
+      _response = send_request(_path, _method, _headers, _body)
+      _response.code == 202 ? _response.headers["Operation-Location"] : false
     end
 
     # params

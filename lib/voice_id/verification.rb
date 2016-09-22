@@ -145,10 +145,10 @@ module VoiceId
       _method  = :Post
       _path    = "/verificationProfiles/#{profileId}/enroll"
       _headers = { } 
-      _body    = { :form => { :file   => HTTP::FormData::File.new(audio_file_path) } }
-      response = send_request(_path, _method, _headers, _body)
+      _body    = VoiceId::RequestHelpers.create_body_for_enrollment(audio_file_path)
+      _response = send_request(_path, _method, _headers, _body)
 
-      response.code == 200 ? response.headers["Operation-Location"] : false
+      _response.code == 200 ? _response.headers["Operation-Location"] : false
     end
 
     # params

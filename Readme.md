@@ -11,21 +11,21 @@
 ### Create a new profile
 ```ruby
   identification = VoiceId::Identification.new("MS_speaker_recognition_api_key")
-  profile = identification.create_profile
+  profile        = identification.create_profile
   # => { "identificationProfileId" => "49a36324-fc4b-4387-aa06-090cfbf0064f" }
 ```
 ### Create a new enrollment for a profile
 ```ruby
-  profile_id = profile["identificationProfileId"]
+  profile_id    = profile["identificationProfileId"]
   path_to_audio = '/path/to/some/audio_file.wav'
-  short_audio = true
+  short_audio   = true
   identification.create_enrollment(profile_id , short_audio, path_to_audio)
 ```
 ### Identify a speaker
 ```ruby
-  profile_ids = ["profile_id_1", "profile_id_2", ...]
+  profile_ids   = ["profile_id_1", "profile_id_2", ...]
   path_to_audio = '/path/to/some/audio_file.wav'
-  short_audio = true
+  short_audio   = true
   identification.identify_speaker(profile_ids, short_audio, path_to_audio)
 ```
 
@@ -36,12 +36,14 @@
 Identify a person from a list of people - this is a text-independant api.
 Prior to being able to identify a speaker, a speaker (profile) must send a minimum
 of 30 seconds of recognizable audio.
+```
+identification = VoiceId::Identification.new("MS_speaker_recognition_api_key")
+```
 
 #### create_profile
 Each person needs a unique profile, this creates a new one.
 ```ruby
-  identification = VoiceId::Identification.new("MS_speaker_recognition_api_key")
-  profile = identification.create_profile
+  profile        = identification.create_profile
   # => { "identificationProfileId" => "49a36324-fc4b-4387-aa06-090cfbf0064f" }
 ```
 
@@ -97,9 +99,49 @@ Returns a list of all the profiles for this account.
 #### get_profile(profileId)
 Returns a profile's details
 ```ruby
-  
+  profile_id = "1234567890"
+  identification.get_profile(profile_id)
+  # =>
+  #   {
+  #     "identificationProfileId" : "111f427c-3791-468f-b709-fcef7660fff9",
+  #     "locale" : "en-US",
+  #     "enrollmentSpeechTime", 0.0
+  #     "remainingEnrollmentSpeechTime" : 0.0,
+  #     "createdDateTime" : "2015-04-23T18:25:43.511Z",
+  #     "lastActionDateTime" : "2015-04-23T18:25:43.511Z",
+  #     "enrollmentStatus" : "Enrolled" //[Enrolled | Enrolling | Training]
+  #   }
 ```
 
+#### reset_all_enrollments_for_profile(profileId)
+Resets all the enrollments for a particular profile
+```ruby
+  profile_id = "1234567890"
+  identification.reset_all_enrollments_for_profile(profile_id)
+  # => true || false
+```
+
+#### identify_speaker(profile_ids, short_audio, audio_file_path)
+Identify a speaker by calling this method with an array of `enrolled` profile_ids.
+Use ```short_audio``` to wave the required 5-second speech sample.
+The audio sample to be analyzed should ideally be 30 seconds, with a maximum of 5 mins.
+
+```
+Valid Audio Format
+-------------------
+Container WAV
+Encoding  PCM
+Rate  16K
+Sample Format 16 bit
+Channels  Mono
+```
+
+```ruby
+  profile_ids   = ["profile_id_1", "profile_id_2", ...]
+  path_to_audio = '/path/to/some/audio_file.wav'
+  short_audio   = true
+  identification.identify_speaker(profile_ids, short_audio, path_to_audio)
+``` 
 
 ### Verification API
 Verify that a person is who they say they are - this is a text-dependent api.

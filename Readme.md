@@ -45,7 +45,7 @@ Each person needs a unique profile, this creates a new one.
   # => { "identificationProfileId" => "49a36324-fc4b-4387-aa06-090cfbf0064f" }
 ```
 
-#### create_enrollment(profile_id, short_audio, audio_file_path)` 
+#### create_enrollment(profile_id, short_audio, audio_file_path)
 An enrollment is how audio samples are associated with a profile (training the service).  For the Identification API a minimum of 30 seconds of recognizable speach is required.  This can be done through multiple enrollments.  This creates a new
 enrollment for a profile.
 
@@ -58,6 +58,7 @@ Rate  16K
 Sample Format 16 bit
 Channels  Mono
 ```
+
 ```ruby
   profile_id = "1234567890"
   path_to_audio = '/path/to/some/audio_file.wav'
@@ -66,6 +67,39 @@ Channels  Mono
   # returns an operation url that you can use to check the status of the enrollment
   # => "https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5"
 ```
+
+#### delete_profile(profileId)
+Delete a particular profile from the service.
+```ruby
+  profile_id = "1234567890"
+  identification.delete_profile(profile_id)
+  # => true || false
+```
+
+#### get_all_profiles
+Returns a list of all the profiles for this account.
+```ruby
+    identification.get_all_profiles
+    # => 
+    # [
+    #   {
+    #     "identificationProfileId" => "111f427c-3791-468f-b709-fcef7660fff9",
+    #     "locale" => "en-US",
+    #     "enrollmentSpeechTime" => 0.0
+    #     "remainingEnrollmentSpeechTime" => 0.0,
+    #     "createdDateTime" => "2015-04-23T18:25:43.511Z",
+    #     "lastActionDateTime" => "2015-04-23T18:25:43.511Z",
+    #     "enrollmentStatus" => "Enrolled" //[Enrolled | Enrolling | Training]
+    #   }, ...
+    # ]
+```
+
+#### get_profile(profileId)
+Returns a profile's details
+```ruby
+  
+```
+
 
 ### Verification API
 Verify that a person is who they say they are - this is a text-dependent api.

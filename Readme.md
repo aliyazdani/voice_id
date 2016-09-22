@@ -33,24 +33,24 @@
   Provides methods for two APIs:
 
 ### Identification API
-  Identify a person from a list of people - this is a text-independant api.
-  Prior to being able to identify a speaker, a speaker (profile) must send a minimum
-  of 30 seconds of recognizable audio.
+Identify a person from a list of people - this is a text-independant api.
+Prior to being able to identify a speaker, a speaker (profile) must send a minimum
+of 30 seconds of recognizable audio.
 
-`create_profile` Each person needs a unique profile, this creates a new one.
+`create_profile`
+Each person needs a unique profile, this creates a new one.
 ```ruby
   identification = VoiceId::Identification.new("MS_speaker_recognition_api_key")
   profile = identification.create_profile
   # => { "identificationProfileId" => "49a36324-fc4b-4387-aa06-090cfbf0064f" }
 ```
 
-`create_enrollment(profile_id, short_audio, audio_file_path)` An enrollment is how audio samples
-are associated with a profile (training the service).  For the Identification API a minimum of 30 seconds
-of recognizable speach is required.  This can be done through multiple enrollments.  This creates a new
+`create_enrollment(profile_id, short_audio, audio_file_path)` 
+An enrollment is how audio samples are associated with a profile (training the service).  For the Identification API a minimum of 30 seconds of recognizable speach is required.  This can be done through multiple enrollments.  This creates a new
 enrollment for a profile.
 
-Valid Audio Format
 ```
+##### Valid Audio Format
 Container WAV
 Encoding  PCM
 Rate  16K
@@ -67,7 +67,7 @@ Channels  Mono
 ```
 
 ### Verification API
-  Verify that a person is who they say they are - this is a text-dependent api.
-  Prior to being able to verify a speaker, a speaker (profile) must send three audio samples (from an API provided list) with their enrollment.
+Verify that a person is who they say they are - this is a text-dependent api.
+Prior to being able to verify a speaker, a speaker (profile) must send three audio samples (from an API provided list) with their enrollment.
 
 

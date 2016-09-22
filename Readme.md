@@ -23,13 +23,21 @@
   path_to_audio = '/path/to/some/audio_file.wav'
   short_audio   = true
   identification.create_enrollment(profile_id , short_audio, path_to_audio)
+  # => "https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5"
 ```
 ### Identify a speaker
 ```ruby
   profile_ids   = ["profile_id_1", "profile_id_2", ...]
   path_to_audio = '/path/to/some/audio_file.wav'
   short_audio   = true
-  identification.identify_speaker(profile_ids, short_audio, path_to_audio)
+  operation     = identification.identify_speaker(profile_ids, short_audio, path_to_audio)
+  # => "https://api.projectoxford.ai/spid/v1.0/operations/995a8745-0098-4c12-9889-bad14859y7a4"
+```
+### Check to see the results of speaker identification (above)
+```ruby
+  identification.get_operation_status(operationId)
+  # =>     
+
 ```
 
 ## APIs

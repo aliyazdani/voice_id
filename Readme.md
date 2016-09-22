@@ -2,6 +2,9 @@
   Wrapper around Microsoft Cognitive Services - Speaker Recognition API
 
 ## Installation
+  sign up and pick up a new api key (speaker recognition API key) 
+  [https://www.microsoft.com/cognitive-services](https://www.microsoft.com/cognitive-services)
+
   ```
   $ gem install voice_id
   ```

@@ -69,4 +69,11 @@ describe VoiceId::Identification do
       expect(@identification.get_operation_id(operation_url)).to eql("995a8745-0098-4c12-9889-bad14859y7a4")
     end
   end
+
+  describe "#get_operation_status(operationId)" do
+    it "returns operation status" do
+      operation_id = "1234567890"
+      expect(@identification.get_operation_status(operation_id)).to eql(@operation_status)
+    end
+  end
 end

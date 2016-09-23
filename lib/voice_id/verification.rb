@@ -1,6 +1,36 @@
 module VoiceId
   class Verification < VoiceId::Base
 
+    # params
+    #   profile_id
+    #     unique profile id
+    #   audio_file_path
+    #     path to the audio of speaker
+    #
+    # Microsoft API response
+    # 200 Response 
+    # {
+    #   "result" : "Accept", // [Accept | Reject]
+    #   "confidence" : "Normal", // [Low | Normal | High]
+    #   "phrase": "recognized phrase"
+    # }
+    #
+    #
+    # returns
+    #   success
+    #     verification results { Hash }
+    #   fail (500 error)
+    #     false
+    def verify_speaker(profile_id, audio_file_path)
+        _method   = :Post
+        _path     = "/verify?verificationProfileId=#{profile_id}"
+        _headers  = { } 
+        _body     = create_body_for_enrollment(audio_file_path)
+        _response = send_request(_path, _method, _headers, _body)
+
+        _response.code == 200 ? _response.parse : false
+    end
+
     # Microsoft API response
     # 200 Response 
     # {
@@ -142,13 +172,13 @@ module VoiceId
     #   fail
     #     false
     def create_enrollment(profileId, audio_file_path)
-      _method  = :Post
-      _path    = "/verificationProfiles/#{profileId}/enroll"
-      _headers = { } 
-      _body    = create_body_for_enrollment(audio_file_path)
+      _method   = :Post
+      _path     = "/verificationProfiles/#{profileId}/enroll"
+      _headers  = { } 
+      _body     = create_body_for_enrollment(audio_file_path)
       _response = send_request(_path, _method, _headers, _body)
 
-      _response.code == 200 ? _response.headers["Operation-Location"] : false
+      _response.code == 200 ? _response.parse : false
     end
 
     # params

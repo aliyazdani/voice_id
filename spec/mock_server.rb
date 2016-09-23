@@ -67,8 +67,34 @@ enrollment_operation = { "Operation-Location" => "https://www.coolsite/operation
   {"phrase" => "be yourself everyone else is already taken"}
 ]
 
+@verification_enrollment_response = {
+  "enrollmentStatus" => "Enrolling",
+  "enrollmentsCount" => 1,
+  "remainingEnrollments" => 2,
+  "phrase" => "i am going to make him an offer he cannot refuse"
+}
+
+@verify_speaker_result = {
+  "result" => "Accept", 
+  "confidence" => "High", 
+  "phrase" => "i am going to make him an offer he cannot refuse"
+}
+
+@operation_status = {
+  "status" => "succeeded", 
+  "createdDateTime" => "2016-09-20T01:51:39.134487Z", 
+  "lastActionDateTime" => "2016-09-20T01:51:41.4183611Z", 
+  "processingResult" => {
+    "enrollmentStatus" => "Enrolled", 
+    "remainingEnrollmentSpeechTime" => 0.0, 
+    "speechTime" => 7.93, # useful speech duration
+    "enrollmentSpeechTime" => 31.72
+   }
+}
+
 Mimic.mimic do
   get("/identificationProfiles").returning(@identification_profiles.to_json, 200, json_type)
+  get("/operations/:operationId").returning(@operation_status.to_json, 200, json_type)
   get("/identificationProfiles/:profileId").returning(@identification_profile.to_json, 200, json_type)
   post("/identificationProfiles").returning(@new_identification_profile.to_json, 200, json_type)
   post("/identificationProfiles/:profileId/reset").returning("".to_json, 200, json_type)
@@ -80,6 +106,7 @@ Mimic.mimic do
   get("/verificationPhrases").returning(@all_verification_phrases.to_json, 200, json_type)
   post("/verificationProfiles").returning(@new_verification_profile.to_json, 200, json_type)
   post("/verificationProfiles/:profileId/reset").returning("".to_json, 200, json_type)
-  post("/verificationProfiles/:profileId/enroll").returning("".to_json, 200, json_type.merge(enrollment_operation))
+  post("/verificationProfiles/:profileId/enroll").returning(@verification_enrollment_response.to_json, 200, json_type)
+  post("/verify").returning(@verify_speaker_result, 200, json_type)
   delete("/verificationProfiles/:profileId").returning("".to_json, 200, json_type)
 end

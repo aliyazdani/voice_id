@@ -132,7 +132,7 @@ Check on the status of an operation by passing in the operation id (use #get_ope
   # }
 ```
 
-#### delete_profile(profileId)
+#### delete_profile(profile_id)
 Delete a particular profile from the service.
 ```ruby
   profile_id = "1234567890"
@@ -215,6 +215,7 @@ Prior to being able to verify a speaker, a speaker (profile) must send three aud
 ```ruby
 verification = VoiceId::Verification.new("MS_speaker_recognition_api_key")
 ```
+
 #### list_all_verification_phrases
 Get a list of accepted scripts to use when sending your audio sample.
 ```ruby
@@ -232,4 +233,45 @@ Get a list of accepted scripts to use when sending your audio sample.
   #   {"phrase" => "my name is unknown to you"}, 
   #   {"phrase" => "be yourself everyone else is already taken"}
   #  ]
+```
+
+#### create_profile
+Same as Identification API
+
+#### create_enrollment(profile_id, audio_file_path)
+Requires 3 enrollments.  Pick 3 of the acceptable phrases from `#list_all_verification_phrases` and enroll them.
+```ruby
+  verification.create_enrollment("49a46324-fc4b-4387-aa06-090cfbf0214f", '/path/to/audio/make_him_an_offer.wav')
+  # =>
+  #   {
+  #     "enrollmentStatus" => "Enrolling",
+  #     "enrollmentsCount" => 1,
+  #     "remainingEnrollments" => 2,
+  #     "phrase" => "i am going to make him an offer he cannot refuse"
+  #   }
+```
+
+#### delete_profile(profile_id)
+Same as Identification API
+
+#### get_all_profiles
+Same as Identification API
+
+#### get_profile(profile_id)
+Same as Identification API
+
+#### reset_all_enrollments_for_profile(profile_id)
+Same as Identification API
+
+#### verify_speaker(profile_id, audio_file_path)
+User (profile) would have had to enroll with 3 of the accepted phrases (#list_all_verification_phrases).
+Once the phrases have been accepted, a recording of one of the accepted phrases can be checked against an *enrolled* profile.
+```ruby
+  verification.verify_speaker("86935587-b631-4cc7-a59t-8e580d71522g", "/path/to/audio/offer_converted.wav")
+  # =>
+  #   {
+  #    "result" => "Accept", 
+  #    "confidence" => "High", 
+  #    "phrase" => "i am going to make him an offer he cannot refuse"
+  #   }
 ```

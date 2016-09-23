@@ -38,7 +38,7 @@ describe VoiceId::Verification do
       data       = { :form => { :file   => "cool.wav" } }
       profileId  = "0991883883"
       allow_any_instance_of(VoiceId::RequestHelpers).to receive(:create_body_for_enrollment).and_return(data)
-      expect(@verification.create_enrollment(profileId, '/path/to/some/audio_file.wav')).to eql("https://www.coolsite/operations/123456789")
+      expect(@verification.create_enrollment(profileId, '/path/to/some/audio_file.wav')).to eql(@verification_enrollment_response)
     end
   end
 
@@ -59,6 +59,15 @@ describe VoiceId::Verification do
   describe "#list_all_verification_phrases" do
     it "lists all acceptable phrases available" do
       expect(@verification.list_all_verification_phrases).to eql(@all_verification_phrases)
+    end
+  end
+
+  describe "#verify_speaker" do
+    it "verifies speaker against known phrase" do
+      data       = { :form => { :file   => "cool.wav" } }
+      profileId  = "0991883883"
+      allow_any_instance_of(VoiceId::RequestHelpers).to receive(:create_body_for_enrollment).and_return(data)
+      expect(@verification.verify_speaker(profileId, '/path/to/some/audio_file.wav')).to eql(@verify_speaker_result)
     end
   end
 end

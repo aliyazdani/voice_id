@@ -99,6 +99,7 @@ Mimic.mimic do
   post("/identificationProfiles").returning(@new_identification_profile.to_json, 200, json_type)
   post("/identificationProfiles/:profileId/reset").returning("".to_json, 200, json_type)
   post("/identificationProfiles/:profileId/enroll").returning("".to_json, 202, json_type.merge(enrollment_operation))
+  post("/identify").returning("".to_json, 202, json_type.merge(enrollment_operation))
   delete("/identificationProfiles/:profileId").returning("".to_json, 200, json_type)
 
   get("/verificationProfiles").returning(@verification_profiles.to_json, 200, json_type)

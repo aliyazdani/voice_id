@@ -70,6 +70,17 @@ describe VoiceId::Identification do
     end
   end
 
+  describe "#identify_speaker" do
+    it "identifies a speaker using any audio snippet" do
+      data = { :form => { :file   => "cool.wav" } }
+      profile_ids = ["profile_id1", "profile_id2"]
+      short_audio = true
+      audio_file_path = '/path/to/some/audio_file.wav'
+      allow_any_instance_of(VoiceId::RequestHelpers).to receive(:create_body_for_enrollment).and_return(data)
+      expect(@identification.identify_speaker(profile_ids, short_audio, audio_file_path)).to eql("https://www.coolsite/operations/123456789")
+    end
+  end
+
   describe "#get_operation_status(operationId)" do
     it "returns operation status" do
       operation_id = "1234567890"

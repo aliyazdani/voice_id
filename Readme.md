@@ -46,10 +46,10 @@
   #   }
 
   # identify a speaker
-  profile_ids   = ["49a46324-fc4b-4387-aa06-090cfbf0214f", "49a36324-fc4b-4387-aa06-091cfbf0216b", ...]
-  path_to_test_audio = '/path/to/some/audio_file.wav'
-  short_audio   = true
-  identification_operation_url     = identification.identify_speaker(profile_ids, short_audio, path_to_test_audio)
+  profile_ids                  = ["49a46324-fc4b-4387-aa06-090cfbf0214f", "49a36324-fc4b-4387-aa06-091cfbf0216b", ...]
+  path_to_test_audio           = '/path/to/some/audio_file.wav'
+  short_audio                  = true
+  identification_operation_url = identification.identify_speaker(profile_ids, short_audio, path_to_test_audio)
   # => "https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B6"
   identification_operation_id = identification.get_operation_id(identification_operation_url)
   # => "EF217D0C-9085-45D7-AAE0-2B36471B89B6"
@@ -67,13 +67,21 @@
 ```
 
 ## APIs
-  Provides methods for two APIs:
+  Provides methods for two APIs (Identification and Verification)
+  All audio samples provided to the API must be the following format:
+  ```
+  Container WAV
+  Encoding  PCM
+  Rate  16K
+  Sample Format 16 bit
+  Channels  Mono
+  ```
 
 ### Identification API
 Identify a person from a list of people - this is a text-independant api.
 Prior to being able to identify a speaker, a speaker (profile) must send a minimum
 of 30 seconds of recognizable audio.
-```
+```ruby
 identification = VoiceId::Identification.new("MS_speaker_recognition_api_key")
 ```
 
@@ -87,16 +95,6 @@ Each person needs a unique profile, this creates a new one.
 #### create_enrollment(profile_id, short_audio, audio_file_path)
 An enrollment is how audio samples are associated with a profile (training the service).  For the Identification API a minimum of 30 seconds of recognizable speach is required.  This can be done through multiple enrollments.  This creates a new
 enrollment for a profile.
-
-```
-Valid Audio Format
--------------------
-Container WAV
-Encoding  PCM
-Rate  16K
-Sample Format 16 bit
-Channels  Mono
-```
 
 ```ruby
   profile_id    = "1234567890"
@@ -187,16 +185,6 @@ Identify a speaker by calling this method with an array of `enrolled` profile_id
 Use ```short_audio``` to wave the required 5-second speech sample.
 The audio sample to be analyzed should ideally be 30 seconds, with a maximum of 5 mins.
 
-```
-Valid Audio Format
--------------------
-Container WAV
-Encoding  PCM
-Rate  16K
-Sample Format 16 bit
-Channels  Mono
-```
-
 ```ruby
   profile_ids   = ["49a46324-fc4b-4387-aa06-090cfbf0214f", "49a36324-fc4b-4387-aa06-091cfbf0216b", ...]
   path_to_test_audio = '/path/to/some/audio_file.wav'
@@ -221,5 +209,24 @@ Channels  Mono
 ### Verification API
 Verify that a person is who they say they are - this is a text-dependent api.
 Prior to being able to verify a speaker, a speaker (profile) must send three audio samples (from an API provided list) with their enrollment.
-
-
+```ruby
+verification = VoiceId::Verification.new("MS_speaker_recognition_api_key")
+```
+#### list_all_verification_phrases
+Get a list of accepted scripts to use when sending your audio sample.
+```ruby
+  verification.list_all_verification_phrases
+  # =>
+  #  [
+  #   {"phrase" => "i am going to make him an offer he cannot refuse"}, 
+  #   {"phrase" => "houston we have had a problem"}, 
+  #   {"phrase" => "my voice is my passport verify me"}, 
+  #   {"phrase" => "apple juice tastes funny after toothpaste"}, 
+  #   {"phrase" => "you can get in without your password"}, 
+  #   {"phrase" => "you can activate security system now"}, 
+  #   {"phrase" => "my voice is stronger than passwords"}, 
+  #   {"phrase" => "my password is not your business"}, 
+  #   {"phrase" => "my name is unknown to you"}, 
+  #   {"phrase" => "be yourself everyone else is already taken"}
+  #  ]
+```

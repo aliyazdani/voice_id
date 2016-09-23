@@ -55,4 +55,10 @@ describe VoiceId::Verification do
       expect(@verification.get_operation_id(operation_url)).to eql("995a8745-0098-4c12-9889-bad14859y7a4")
     end
   end
+
+  describe "#list_all_verification_phrases" do
+    it "lists all acceptable phrases available" do
+      expect(@verification.list_all_verification_phrases).to eql(@all_verification_phrases)
+    end
+  end
 end

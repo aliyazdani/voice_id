@@ -54,6 +54,19 @@ enrollment_operation = { "Operation-Location" => "https://www.coolsite/operation
   "enrollmentStatus" => "Enrolled"
 }
 
+@all_verification_phrases = [
+  {"phrase" => "i am going to make him an offer he cannot refuse"}, 
+  {"phrase" => "houston we have had a problem"}, 
+  {"phrase" => "my voice is my passport verify me"}, 
+  {"phrase" => "apple juice tastes funny after toothpaste"}, 
+  {"phrase" => "you can get in without your password"}, 
+  {"phrase" => "you can activate security system now"}, 
+  {"phrase" => "my voice is stronger than passwords"}, 
+  {"phrase" => "my password is not your business"}, 
+  {"phrase" => "my name is unknown to you"}, 
+  {"phrase" => "be yourself everyone else is already taken"}
+]
+
 Mimic.mimic do
   get("/identificationProfiles").returning(@identification_profiles.to_json, 200, json_type)
   get("/identificationProfiles/:profileId").returning(@identification_profile.to_json, 200, json_type)
@@ -64,6 +77,7 @@ Mimic.mimic do
 
   get("/verificationProfiles").returning(@verification_profiles.to_json, 200, json_type)
   get("/verificationProfiles/:profileId").returning(@verification_profile.to_json, 200, json_type)
+  get("/verificationPhrases").returning(@all_verification_phrases.to_json, 200, json_type)
   post("/verificationProfiles").returning(@new_verification_profile.to_json, 200, json_type)
   post("/verificationProfiles/:profileId/reset").returning("".to_json, 200, json_type)
   post("/verificationProfiles/:profileId/enroll").returning("".to_json, 200, json_type.merge(enrollment_operation))

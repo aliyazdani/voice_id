@@ -145,7 +145,7 @@ module VoiceId
       _method  = :Post
       _path    = "/verificationProfiles/#{profileId}/enroll"
       _headers = { } 
-      _body    = VoiceId::RequestHelpers.create_body_for_enrollment(audio_file_path)
+      _body    = create_body_for_enrollment(audio_file_path)
       _response = send_request(_path, _method, _headers, _body)
 
       _response.code == 200 ? _response.headers["Operation-Location"] : false

@@ -51,7 +51,7 @@ describe VoiceId::Identification do
       data       = { :form => { :file   => "cool.wav" } }
       profileId  = "0991883883"
       shortAudio = true
-      allow(VoiceId::RequestHelpers).to receive(:create_body_for_enrollment).and_return(data)
+      allow_any_instance_of(VoiceId::RequestHelpers).to receive(:create_body_for_enrollment).and_return(data)
       expect(@identification.create_enrollment(profileId , shortAudio, '/path/to/some/audio_file.wav')).to eql("https://www.coolsite/operations/123456789")
     end
   end

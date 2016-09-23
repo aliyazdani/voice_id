@@ -2,8 +2,6 @@ require_relative "spec_helper"
 
 describe VoiceId::Identification do
 
-  # enrollment_operation = { "Operation-Location" => "https://www.coolsite/operations/123456789" }
-
   @profile = {
     "identificationProfileId" => "111f427c-3791-468f-b709-fcef7660fff9",
     "locale" => "en-US",

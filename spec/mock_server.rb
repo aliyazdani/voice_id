@@ -92,7 +92,16 @@ enrollment_operation = { "Operation-Location" => "https://www.coolsite/operation
    }
 }
 
+error_response = {
+  "error" => {
+    "message" => "oh no everything's going wrong today!"
+  }
+}
+
 Mimic.mimic do
+  post("/error/identificationProfiles").returning(error_response.to_json, 400, json_type)
+  post("/error/verificationProfiles").returning(error_response.to_json, 400, json_type)
+
   get("/identificationProfiles").returning(@identification_profiles.to_json, 200, json_type)
   get("/operations/:operationId").returning(@operation_status.to_json, 200, json_type)
   get("/identificationProfiles/:profileId").returning(@identification_profile.to_json, 200, json_type)

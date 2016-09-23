@@ -2,10 +2,16 @@ require 'http'
 
 module VoiceId
   module RequestHelpers
+    class InvalidApiRequestError < StandardError; end
 
     # generate body for content-type "multipart/form-data"
     def create_body_for_enrollment(audio_file_path)
       { :form => { :file   => HTTP::FormData::File.new(audio_file_path) } }
+    end
+
+    def parse_error_response(response)
+      msg = response.parse["error"]["message"] || "request returned status #{response.code}"
+      raise InvalidApiRequestError, msg
     end
 
     def send_request(path, method, req_headers, body)

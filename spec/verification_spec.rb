@@ -70,4 +70,11 @@ describe VoiceId::Verification do
       expect(@verification.verify_speaker(profileId, '/path/to/some/audio_file.wav')).to eql(@verify_speaker_result)
     end
   end
+
+  describe "#parse_error_response" do
+    it "throws an error" do
+      @verification.api_base_url = "http://localhost:11988/error"
+      expect { @verification.create_profile }.to raise_error(VoiceId::RequestHelpers::InvalidApiRequestError, "oh no everything's going wrong today!")
+    end
+  end
 end

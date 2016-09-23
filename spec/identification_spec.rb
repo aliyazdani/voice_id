@@ -85,4 +85,11 @@ describe VoiceId::Identification do
       expect(@identification.get_operation_status(operation_id)).to eql(@operation_status)
     end
   end
+
+  describe "#parse_error_response" do
+    it "throws an error" do
+      @identification.api_base_url = "http://localhost:11988/error"
+      expect { @identification.create_profile }.to raise_error(VoiceId::RequestHelpers::InvalidApiRequestError, "oh no everything's going wrong today!")
+    end
+  end
 end

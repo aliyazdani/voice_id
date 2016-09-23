@@ -40,7 +40,7 @@ module VoiceId
       _headers  = { "Content-Type" => "application/json" }
       _response = send_request(_path, _method, _headers, nil)
 
-      _response.code == 200 ? _response.parse : false
+      _response.code == 200 ? _response.parse : parse_error_response(_response)
     end
 
     # params
@@ -83,7 +83,7 @@ module VoiceId
       _body     = create_body_for_enrollment(audio_file_path)
       _response = send_request(_path, _method, _headers, _body)
 
-      _response.code == 202 ? _response.headers["Operation-Location"] : false
+      _response.code == 202 ? _response.headers["Operation-Location"] : parse_error_response(_response)
     end
 
     # Microsoft API response
@@ -231,7 +231,7 @@ module VoiceId
       _body     = create_body_for_enrollment(audio_file_path)
       _response = send_request(_path, _method, _headers, _body)
 
-      _response.code == 202 ? _response.headers["Operation-Location"] : false
+      _response.code == 202 ? _response.headers["Operation-Location"] : parse_error_response(_response)
     end
 
     # params

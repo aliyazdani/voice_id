@@ -137,7 +137,7 @@ Delete a particular profile from the service.
 ```ruby
   profile_id = "1234567890"
   identification.delete_profile(profile_id)
-  # => true || false
+  # => true
 ```
 
 #### get_all_profiles
@@ -180,7 +180,7 @@ Resets all the enrollments for a particular profile
 ```ruby
   profile_id = "1234567890"
   identification.reset_all_enrollments_for_profile(profile_id)
-  # => true || false
+  # => true
 ```
 
 #### identify_speaker(profile_ids, short_audio, audio_file_path)

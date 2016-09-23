@@ -48,4 +48,11 @@ describe VoiceId::Verification do
       expect(@verification.reset_all_enrollments_for_profile(profileId)).to eql(true)
     end
   end
+
+  describe "#get_operation_id" do
+    it "returns an operation id" do
+      operation_url = "https://api.projectoxford.ai/spid/v1.0/operations/995a8745-0098-4c12-9889-bad14859y7a4"
+      expect(@verification.get_operation_id(operation_url)).to eql("995a8745-0098-4c12-9889-bad14859y7a4")
+    end
+  end
 end

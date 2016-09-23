@@ -11,14 +11,16 @@
 
 ## Examples
   
-### Create a new profile
+
 ```ruby
+  #create a new profile
   identification = VoiceId::Identification.new("MS_speaker_recognition_api_key")
   profile        = identification.create_profile
   # => { "identificationProfileId" => "49a36324-fc4b-4387-aa06-090cfbf0064f" }
 ```
-### Create a new enrollment for a profile
+
 ```ruby
+  # create a new enrollment for that profile
   profile_id    = profile["identificationProfileId"]
   path_to_audio = '/path/to/some/audio_file.wav'
   short_audio   = true

@@ -35,10 +35,11 @@ module VoiceId
       end
 
       _identificationProfileIds = profileIds.join(",")
-      _method  = :Post
-      _path    = "/identify?identificationProfileIds=#{_identificationProfileIds}&shortAudio=#{shortAudio}"
-      _headers = { } 
-      _body    = VoiceId::RequestHelpers.create_body_for_enrollment(audio_file_path)
+
+      _method   = :Post
+      _path     = "/identify?identificationProfileIds=#{_identificationProfileIds}&shortAudio=#{shortAudio}"
+      _headers  = { } 
+      _body     = VoiceId::RequestHelpers.create_body_for_enrollment(audio_file_path)
       _response = send_request(_path, _method, _headers, _body)
 
       _response.code == 202 ? _response.headers["Operation-Location"] : false
@@ -183,12 +184,12 @@ module VoiceId
     #   fail
     #     false
     def create_enrollment(profileId, shortAudio, audio_file_path)
-      _method  = :Post
-      _path    = "/identificationProfiles/#{profileId}/enroll"
-      _headers = { } 
-      _body    = VoiceId::RequestHelpers.create_body_for_enrollment(audio_file_path)
-
+      _method   = :Post
+      _path     = "/identificationProfiles/#{profileId}/enroll"
+      _headers  = { } 
+      _body     = VoiceId::RequestHelpers.create_body_for_enrollment(audio_file_path)
       _response = send_request(_path, _method, _headers, _body)
+
       _response.code == 202 ? _response.headers["Operation-Location"] : false
     end
 

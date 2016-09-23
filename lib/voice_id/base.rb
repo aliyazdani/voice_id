@@ -1,5 +1,3 @@
-require 'pry'
-
 module VoiceId
   class Base
     include RequestHelpers

@@ -1,3 +1,5 @@
+![](https://img.shields.io/badge/license-MIT-blue.svg)
+
 # VoiceId
   Wrapper around Microsoft Cognitive Services - Speaker Recognition API
 
@@ -104,7 +106,7 @@ enrollment for a profile.
   # returns an operation url that you can use to check the status of the enrollment
   # => "https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5"
 ```
-#### get_operation_id
+#### get_operation_id(operation_status_url)
 Certain endpoints take time to process to they return a url for you to check on the status of the operation.  To parse out the operation id use this method.  Now you can use #get_operation_status to
 check the id.
 ```ruby
@@ -113,7 +115,7 @@ check the id.
   identification_operation_id = identification.get_operation_id(operation_status_url)
   # => "EF217D0C-9085-45D7-AAE0-2B36471B89B6"
 ```
-#### get_operation_status
+#### get_operation_status(operation_id)
 Check on the status of an operation by passing in the operation id (use #get_operation_id to get the id)
 ```ruby
   identification.get_operation_status(identification_operation_id)

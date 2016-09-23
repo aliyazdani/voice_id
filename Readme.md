@@ -16,30 +16,54 @@
   #create a new profile
   identification = VoiceId::Identification.new("MS_speaker_recognition_api_key")
   profile        = identification.create_profile
-  # => { "identificationProfileId" => "49a36324-fc4b-4387-aa06-090cfbf0064f" }
-```
+  # => { "identificationProfileId" => "49a46324-fc4b-4387-aa06-090cfbf0214f" }
 
-```ruby
   # create a new enrollment for that profile
   profile_id    = profile["identificationProfileId"]
   path_to_audio = '/path/to/some/audio_file.wav'
   short_audio   = true
-  identification.create_enrollment(profile_id , short_audio, path_to_audio)
+  operation_url = identification.create_enrollment(profile_id , short_audio, path_to_audio)
   # => "https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5"
-```
-### Identify a speaker
-```ruby
-  profile_ids   = ["profile_id_1", "profile_id_2", ...]
-  path_to_audio = '/path/to/some/audio_file.wav'
-  short_audio   = true
-  operation     = identification.identify_speaker(profile_ids, short_audio, path_to_audio)
-  # => "https://api.projectoxford.ai/spid/v1.0/operations/995a8745-0098-4c12-9889-bad14859y7a4"
-```
-### Check to see the results of speaker identification (above)
-```ruby
-  identification.get_operation_status(operationId)
-  # =>     
 
+  # check the status of operation
+  operation_id = identification.get_operation_id(operation_url)
+  # => "EF217D0C-9085-45D7-AAE0-2B36471B89B5"
+
+  identification.get_operation_status(operation_id)
+  # notice below that we only had 13.6 seconds of useable audio so we need to
+  # submit more enrollments for this profile until we achieve at min 30 seconds
+  # => 
+  #   {
+  #    "status" => "succeeded", 
+  #    "createdDateTime" => "2016-09-23T01:34:44.226642Z",
+  #    "lastActionDateTime" => "2016-09-23T01:34:44.4795299Z",
+  #    "processingResult" => {
+  #      "enrollmentStatus" => "Enrolling", 
+  #      "remainingEnrollmentSpeechTime" => 16.4, 
+  #      "speechTime" => 13.6, 
+  #      "enrollmentSpeechTime"=>13.6
+  #    }
+  #   }
+
+  # identify a speaker
+  profile_ids   = ["49a46324-fc4b-4387-aa06-090cfbf0214f", "49a36324-fc4b-4387-aa06-091cfbf0216b", ...]
+  path_to_test_audio = '/path/to/some/audio_file.wav'
+  short_audio   = true
+  identification_operation_url     = identification.identify_speaker(profile_ids, short_audio, path_to_test_audio)
+  # => "https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B6"
+  identification_operation_id = identification.get_operation_id(identification_operation_url)
+  # => "EF217D0C-9085-45D7-AAE0-2B36471B89B6"
+  identification.get_operation_status(identification_operation_id)
+  # => 
+  # {
+  #  "status" => "succeeded", 
+  #  "createdDateTime" => "2016-09-23T02:01:54.6498703Z",
+  #  "lastActionDateTime" => "2016-09-23T02:01:56.054633Z",
+  #  "processingResult" => {
+  #    "identifiedProfileId" => "49a46324-fc4b-4387-aa06-090cfbf0214f", 
+  #    "confidence"=>"High"
+  #   }
+  # }
 ```
 
 ## APIs
@@ -81,6 +105,30 @@ Channels  Mono
   identification.create_enrollment(profile_id, short_audio, path_to_audio)
   # returns an operation url that you can use to check the status of the enrollment
   # => "https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5"
+```
+#### get_operation_id
+Certain endpoints take time to process to they return a url for you to check on the status of the operation.  To parse out the operation id use this method.  Now you can use #get_operation_status to
+check the id.
+```ruby
+  operation_status_url = identification.create_enrollment(profile_id, short_audio, path_to_audio)
+  # => "https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5"
+  identification_operation_id = identification.get_operation_id(operation_status_url)
+  # => "EF217D0C-9085-45D7-AAE0-2B36471B89B6"
+```
+#### get_operation_status
+Check on the status of an operation by passing in the operation id (use #get_operation_id to get the id)
+```ruby
+  identification.get_operation_status(identification_operation_id)
+  # => 
+  # {
+  #  "status" => "succeeded", 
+  #  "createdDateTime" => "2016-09-23T02:01:54.6498703Z",
+  #  "lastActionDateTime" => "2016-09-23T02:01:56.054633Z",
+  #  "processingResult" => {
+  #    "identifiedProfileId" => "49a59333-ur9d-4387-wd06-880cfby0215f", 
+  #    "confidence"=>"High"
+  #   }
+  # }
 ```
 
 #### delete_profile(profileId)
@@ -150,10 +198,24 @@ Channels  Mono
 ```
 
 ```ruby
-  profile_ids   = ["profile_id_1", "profile_id_2", ...]
-  path_to_audio = '/path/to/some/audio_file.wav'
+  profile_ids   = ["49a46324-fc4b-4387-aa06-090cfbf0214f", "49a36324-fc4b-4387-aa06-091cfbf0216b", ...]
+  path_to_test_audio = '/path/to/some/audio_file.wav'
   short_audio   = true
-  identification.identify_speaker(profile_ids, short_audio, path_to_audio)
+  identification_operation_url     = identification.identify_speaker(profile_ids, short_audio, path_to_test_audio)
+  # => "https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B6"
+  identification_operation_id = identification.get_operation_id(identification_operation_url)
+  # => "EF217D0C-9085-45D7-AAE0-2B36471B89B6"
+  identification.get_operation_status(identification_operation_id)
+  # => 
+  # {
+  #  "status" => "succeeded", 
+  #  "createdDateTime" => "2016-09-23T02:01:54.6498703Z",
+  #  "lastActionDateTime" => "2016-09-23T02:01:56.054633Z",
+  #  "processingResult" => {
+  #    "identifiedProfileId" => "49a46324-fc4b-4387-aa06-090cfbf0214f", 
+  #    "confidence"=>"High"
+  #   }
+  # }
 ``` 
 
 ### Verification API

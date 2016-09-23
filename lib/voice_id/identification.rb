@@ -71,7 +71,7 @@ module VoiceId
     #   fail
     #     false
     def identify_speaker(profileIds, shortAudio, audio_file_path)
-      unless profileIds.is_a?(Array) && !profileIds.empty?
+      if !profileIds.is_a?(Array) || profileIds.empty?
         raise ProfileIdsMissingError, "an array of profile ids is required"
       end
 

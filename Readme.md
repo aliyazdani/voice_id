@@ -189,12 +189,12 @@ Use ```short_audio``` to wave the required 5-second speech sample.
 The audio sample to be analyzed should ideally be 30 seconds, with a maximum of 5 mins.
 
 ```ruby
-  profile_ids   = ["49a46324-fc4b-4387-aa06-090cfbf0214f", "49a36324-fc4b-4387-aa06-091cfbf0216b", ...]
+  profile_ids        = ["49a46324-fc4b-4387-aa06-090cfbf0214f", "49a36324-fc4b-4387-aa06-091cfbf0216b", ...]
   path_to_test_audio = '/path/to/some/audio_file.wav'
-  short_audio   = true
-  identification_operation_url     = identification.identify_speaker(profile_ids, short_audio, path_to_test_audio)
+  short_audio        = true
+  operation_url      = identification.identify_speaker(profile_ids, short_audio, path_to_test_audio)
   # => "https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B6"
-  identification_operation_id = identification.get_operation_id(identification_operation_url)
+  identification_operation_id = identification.get_operation_id(operation_url)
   # => "EF217D0C-9085-45D7-AAE0-2B36471B89B6"
   identification.get_operation_status(identification_operation_id)
   # => 

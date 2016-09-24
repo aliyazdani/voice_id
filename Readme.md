@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/voice_id.svg)](https://badge.fury.io/rb/voice_id)
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
 [![CircleCI](https://circleci.com/gh/aliyazdani/voice_id.svg?style=svg)](https://circleci.com/gh/aliyazdani/voice_id)
 

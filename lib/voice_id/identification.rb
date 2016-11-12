@@ -226,7 +226,7 @@ module VoiceId
     #     false
     def create_enrollment(profileId, shortAudio, audio_file_path)
       _method   = :Post
-      _path     = "/identificationProfiles/#{profileId}/enroll"
+      _path     = "/identificationProfiles/#{profileId}/enroll?shortAudio=#{shortAudio}"
       _headers  = { } 
       _body     = create_body_for_enrollment(audio_file_path)
       _response = send_request(_path, _method, _headers, _body)

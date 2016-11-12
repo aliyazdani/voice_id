@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "voice_id"
-  s.version     = "0.1.0"
+  s.version     = "0.1.1"
   s.date        = "2016-09-16"
   s.summary     = "Ruby Wrapper for Microsoft Cognitive Services Speaker Recognition API"
   s.description = "Exposes easy-to-use methods to work with Microsoft's Speach Recognition API and identify people by their voice.  Useful for identifying your users by speech."

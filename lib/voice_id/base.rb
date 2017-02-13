@@ -3,12 +3,13 @@ module VoiceId
     include RequestHelpers
     include Utils
 
-    attr_accessor :api_base_url, :api_key, :api_version, :headers, :use_ssl
+    attr_accessor :api_base_url, :api_key, :api_version, :headers, :location, :use_ssl
     def initialize(api_key)
       @api_version  = "v1.0"
+      @location     = "westus"
       @api_key      = api_key
       @use_ssl      = true
-      @api_base_url = "https://api.projectoxford.ai/spid/#{@api_version}"
+      @api_base_url = "https://#{@location}.api.cognitive.microsoft.com/spid/#{@api_version}"
       @headers      = { "Ocp-Apim-Subscription-Key" => api_key }
     end
 
